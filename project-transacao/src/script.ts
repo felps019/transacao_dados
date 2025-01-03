@@ -12,6 +12,20 @@ async function handleData() {
 	preencherEstatisticas(transacoes);
 }
 
+function preencherEstatisticas(transacoes: Transacao[]): void {
+	const data = new Estatisticas(transacoes);
+	console.log(data);
+
+	const totalElement = document.querySelector<HTMLElement>("#total span");
+	if (totalElement) {
+		totalElement.innerHTML = data.total.toLocaleString("pt-BR", {
+			//Forma de adaptar o valor da moeda para o real com js puro
+			style: "currency",
+			currency: "BRL",
+		});
+	}
+}
+
 function preencherTabela(transacoes: Transacao[]): void {
 	const tabela = document.querySelector("#transacoes tbody");
 	if (!tabela) return;
@@ -28,15 +42,4 @@ function preencherTabela(transacoes: Transacao[]): void {
 	});
 }
 
-function preencherEstatisticas(transacoes: Transacao[]): void {
-	const data = new Estatisticas(transacoes);
-	const totalElement = document.querySelector<HTMLElement>("#total span");
-	if (totalElement) {
-		totalElement.innerHTML = data.total.toLocaleString("pt-BR", {
-			//Forma de adaptar o valor da moeda para o real com js puro
-			style: "currency",
-			currency: "BRL",
-		});
-	}
-}
 handleData();
